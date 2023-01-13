@@ -1,18 +1,42 @@
+import ShoppingItemList from '../Shopping/ShoppingList.jsx';
+import { useContext, useEffect } from 'react';
 import ShoppingListForm from '../Shopping/ShoppingListForm.jsx';
 import { getItemsEffect } from '../effects/item-list-effects.js';
-import { useContext, useEffect } from 'react';
+import { itemListSeenChangedAction,
+  itemListCandidateBodyChanged } from '../../actions/item-list-actions.js';
+import { createShoppingListItem } from '../../services/shopping-list-items.js';
 
 export default function ShoppingListPage() {
   const { state, dispatch } = useContext(Context);
+  // need to create ListProvider file in src to use the reducers
   useEffect(() => {
     getItemsEffect(dispatch);
   }, []);
   const onBodyChanged = (body) => {
     dispatch(itemListCandidateBodyChanged(body));
   };
-  const
+  const dispatchSeenChanged = (itemId, seen) => {
+    dispatch(itemListSeenChangedAction(itemId, seen));
+  };
   return <section>
     <h1>My Shopping List</h1>
-    <ShoppingListForm />
+    <ShoppingListForm
+      body={state.itemCandidateBody}
+      onBodyChanged={onBodyChanged}
+      onSubmit={async (body) => {
+        await createShoppingListItem(body);
+        getItemsEffect(dispatch);
+        dispatch(itemListCandidateBodyChanged(''));
+      }} 
+    />
+    { state.loadingMode === 'loading'
+      ? <span>Loading Items!</span>
+      : <ShoppingItemList
+        itemList={state.itemList}
+        handleSeenChangedByItemId={(itemId, seen) => {
+          dispatchSeenChanged(itemId, seen);
+        }}
+      />
+    }
   </section>;
 }
