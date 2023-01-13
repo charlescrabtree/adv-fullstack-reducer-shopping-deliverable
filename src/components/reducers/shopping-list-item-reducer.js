@@ -23,7 +23,7 @@ export const reducer = (state, action) => {
     case 'item-list-load-success':
       return {
         ...state,
-        postList: action.postList,
+        itemList: action.itemList,
         loadingMode: 'success',
       };
     case 'item-list-candidate-body-changed':

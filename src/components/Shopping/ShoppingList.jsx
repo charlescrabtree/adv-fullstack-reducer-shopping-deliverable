@@ -6,7 +6,7 @@ export default function ShoppingItemList({
 }) {
   return <ol>
     {itemList.map(item => {
-      return <li key={itemList.id}>
+      return <li key={item.id}>
         <ShoppingItem item={item} handleSeenChanged={(seen) => {
           handleSeenChangedByItemId(item.id, seen);
         }}/>

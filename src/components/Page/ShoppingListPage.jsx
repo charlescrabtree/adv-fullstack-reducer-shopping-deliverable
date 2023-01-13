@@ -24,7 +24,8 @@ export default function ShoppingListPage() {
       body={state.itemCandidateBody}
       onBodyChanged={onBodyChanged}
       onSubmit={async (body) => {
-        await createShoppingListItem(body);
+        console.log(body);
+        await createShoppingListItem({ items:body });
         getItemsEffect(dispatch);
         dispatch(itemListCandidateBodyChanged(''));
       }} 

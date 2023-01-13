@@ -9,6 +9,7 @@ export const getItemsEffect = async (dispatch) => {
   dispatch(itemListLoadStartAction());
   try {
     const items = await getShoppingListItems();
+    console.log(items);
     dispatch(itemListLoadSuccessAction(items));
   } catch (error) {
     dispatch(itemListLoadErrorAction(error));
