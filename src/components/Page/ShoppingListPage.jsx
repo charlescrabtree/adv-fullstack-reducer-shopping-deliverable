@@ -1,5 +1,5 @@
 import ShoppingItemList from '../Shopping/ShoppingList.jsx';
-import { Context } from '../ListProvider.jsx';
+import { Context } from '../../ListProvider.jsx';
 import { useContext, useEffect } from 'react';
 import ShoppingListForm from '../Shopping/ShoppingListForm.jsx';
 import { getItemsEffect } from '../effects/item-list-effects.js';
@@ -9,7 +9,6 @@ import { createShoppingListItem } from '../../services/shopping-list-items.js';
 
 export default function ShoppingListPage() {
   const { state, dispatch } = useContext(Context);
-  // need to create ListProvider file in src to use the reducers
   useEffect(() => {
     getItemsEffect(dispatch);
   }, []);
