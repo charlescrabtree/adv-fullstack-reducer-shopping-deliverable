@@ -1,6 +1,6 @@
 import ShoppingItem from './ShoppingPost';
 
-export default function ShoppingPostList({
+export default function ShoppingItemList({
   itemList,
   handleSeenChangedByItemId,
 }) {
