@@ -5,7 +5,8 @@ import ShoppingListForm from '../Shopping/ShoppingListForm.jsx';
 import { getItemsEffect } from '../effects/item-list-effects.js';
 import { itemListSeenChangedAction,
   itemListCandidateBodyChanged } from '../../actions/item-list-actions.js';
-import { createShoppingListItem } from '../../services/shopping-list-items.js';
+import { createShoppingListItem, 
+  updateShoppingItem } from '../../services/shopping-list-items.js';
 
 export default function ShoppingListPage() {
   const { state, dispatch } = useContext(Context);
@@ -15,8 +16,9 @@ export default function ShoppingListPage() {
   const onBodyChanged = (body) => {
     dispatch(itemListCandidateBodyChanged(body));
   };
-  const dispatchSeenChanged = (itemId, seen) => {
-    dispatch(itemListSeenChangedAction(itemId, seen));
+  const dispatchSeenChanged = (itemId, completed) => {
+    dispatch(itemListSeenChangedAction(itemId, completed));
+    updateShoppingItem(itemId, { 'completed-items':completed });
   };
   return <section>
     <h1>My Shopping List</h1>
@@ -24,7 +26,6 @@ export default function ShoppingListPage() {
       body={state.itemCandidateBody}
       onBodyChanged={onBodyChanged}
       onSubmit={async (body) => {
-        console.log(body);
         await createShoppingListItem({ items:body });
         getItemsEffect(dispatch);
         dispatch(itemListCandidateBodyChanged(''));
@@ -36,6 +37,7 @@ export default function ShoppingListPage() {
         itemList={state.itemList}
         handleSeenChangedByItemId={(itemId, seen) => {
           dispatchSeenChanged(itemId, seen);
+        
         }}
       />
     }
