@@ -33,6 +33,8 @@ export async function createShoppingListItem(fields) {
   return checkError(response);
 }
 
+//fields is an object and the keys are fields seen in supabase
+
 export async function updateShoppingItem(shoppingItemId, fields) {
   const response = await client
     .from('anon-shopping-list-items')
